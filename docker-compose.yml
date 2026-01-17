@@ -36,6 +36,13 @@ volumes:
   valkey-data:
   weaviate_data:
 
+# Shared logging configuration for services
+x-logging: &default-logging
+  driver: "json-file"
+  options:
+    max-size: "1m"
+    max-file: "1"
+
 # Shared proxy configuration for services that need outbound proxy support
 x-proxy-env: &proxy-env
   HTTP_PROXY: ${GOST_PROXY_URL:-}
@@ -274,11 +281,7 @@ services:
     container_name: nocodb
     profiles: ["nocodb"]
     restart: unless-stopped
-    logging:
-      driver: "json-file"
-      options:
-        max-size: "1m"
-        max-file: "1"
+    logging: *default-logging
     environment:
       NC_AUTH_JWT_SECRET: ${NOCODB_JWT_SECRET}
       NC_DB: pg://postgres:5432?u=postgres&p=${POSTGRES_PASSWORD}&d=nocodb
@@ -364,11 +367,7 @@ services:
       - ALL
     cap_add:
       - NET_BIND_SERVICE
-    logging:
-      driver: "json-file"
-      options:
-        max-size: "1m"
-        max-file: "1"
+    logging: *default-logging
 
   cloudflared:
     image: cloudflare/cloudflared:latest
@@ -378,11 +377,7 @@ services:
     command: tunnel --no-autoupdate run
     environment:
       TUNNEL_TOKEN: ${CLOUDFLARE_TUNNEL_TOKEN}
-    logging:
-      driver: "json-file"
-      options:
-        max-size: "1m"
-        max-file: "1"
+    logging: *default-logging
 
   gost:
     image: gogost/gost:latest
@@ -400,11 +395,7 @@ services:
       timeout: 10s
       retries: 3
       start_period: 10s
-    logging:
-      driver: "json-file"
-      options:
-        max-size: "1m"
-        max-file: "1"
+    logging: *default-logging
 
   langfuse-worker:
     image: langfuse/langfuse-worker:3
@@ -556,11 +547,7 @@ services:
       - SETGID
       - SETUID
       - DAC_OVERRIDE
-    logging:
-      driver: "json-file"
-      options:
-        max-size: "1m"
-        max-file: "1"
+    logging: *default-logging
     healthcheck:
       test: ["CMD", "redis-cli", "ping"]
       interval: 3s
@@ -583,11 +570,7 @@ services:
       - CHOWN
       - SETGID
       - SETUID
-    logging:
-      driver: "json-file"
-      options:
-        max-size: "1m"
-        max-file: "1"
+    logging: *default-logging
 
   ollama-cpu:
     profiles: ["cpu"]
@@ -786,11 +769,7 @@ services:
     container_name: temporal
     profiles: ["postiz"]
     restart: unless-stopped
-    logging:
-      driver: "json-file"
-      options:
-        max-size: "1m"
-        max-file: "1"
+    logging: *default-logging
     environment:
       DB: postgres12
       POSTGRES_USER: postgres
@@ -813,11 +792,7 @@ services:
     container_name: temporal-ui
     profiles: ["postiz"]
     restart: unless-stopped
-    logging:
-      driver: "json-file"
-      options:
-        max-size: "1m"
-        max-file: "1"
+    logging: *default-logging
     environment:
       TEMPORAL_UIADDRESS: temporal:7233
       TEMPORAL_UICORS_ORIGINS: http://localhost:3000
@@ -893,11 +868,7 @@ services:
     container_name: databasus
     profiles: ["databasus"]
     restart: unless-stopped
-    logging:
-      driver: "json-file"
-      options:
-        max-size: "1m"
-        max-file: "1"
+    logging: *default-logging
     volumes:
       - databasus_data:/databasus-data
     healthcheck:
@@ -1094,11 +1065,7 @@ services:
       - SETGID
       - SETUID
       - DAC_OVERRIDE
-    logging:
-      driver: "json-file"
-      options:
-        max-size: "1m"
-        max-file: "1"
+    logging: *default-logging
     healthcheck:
       test: ["CMD", "valkey-cli", "-a", "${RAGFLOW_REDIS_PASSWORD}", "ping"]
       interval: 3s
