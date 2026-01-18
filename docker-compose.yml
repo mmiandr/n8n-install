@@ -777,7 +777,7 @@ services:
       cluster.routing.allocation.disk.watermark.high: 256mb
       cluster.routing.allocation.disk.watermark.flood_stage: 128mb
       discovery.type: single-node
-      ES_JAVA_OPTS: -Xms256m -Xmx256m
+      ES_JAVA_OPTS: -Xms512m -Xmx512m
       xpack.security.enabled: "false"
     volumes:
       - temporal_elasticsearch_data:/usr/share/elasticsearch/data
@@ -800,7 +800,7 @@ services:
       POSTGRES_PWD: ${POSTGRES_PASSWORD}
       POSTGRES_SEEDS: postgres
       DB_PORT: 5432
-      TEMPORAL_UINAMESPACE: default
+      TEMPORAL_NAMESPACE: default
       ENABLE_ES: "true"
       ES_SEEDS: temporal-elasticsearch
       ES_VERSION: v7
@@ -823,8 +823,8 @@ services:
     restart: unless-stopped
     logging: *default-logging
     environment:
-      TEMPORAL_UIADDRESS: temporal:7233
-      TEMPORAL_UICORS_ORIGINS: http://localhost:3000
+      TEMPORAL_ADDRESS: temporal:7233
+      TEMPORAL_CORS_ORIGINS: http://localhost:3000
     depends_on:
       temporal:
         condition: service_healthy
