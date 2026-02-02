@@ -40,6 +40,8 @@ This is **n8n-install**, a Docker Compose-based installer that provides a compre
 - `scripts/docker_cleanup.sh`: Removes unused Docker resources (used by `make clean`)
 - `scripts/download_top_workflows.sh`: Downloads community n8n workflows
 - `scripts/import_workflows.sh`: Imports workflows from `n8n/backup/workflows/` into n8n (used by `make import`)
+- `scripts/restart.sh`: Restarts services with proper compose file handling (used by `make restart`)
+- `scripts/setup_custom_tls.sh`: Configures custom TLS certificates (used by `make setup-tls`)
 
 **Project Name**: All docker-compose commands use `-p localai` (defined in Makefile as `PROJECT_NAME := localai`).
 
