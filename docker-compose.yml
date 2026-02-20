@@ -75,6 +75,7 @@ x-n8n: &service-n8n
     N8N_BINARY_DATA_MODE: database
     N8N_BLOCK_ENV_ACCESS_IN_NODE: false
     N8N_BLOCK_FILE_ACCESS_TO_N8N_FILES: ${N8N_BLOCK_FILE_ACCESS_TO_N8N_FILES:-true}
+    EXTRA_NODE_MODULES_PATH: /opt/custom-nodes/node_modules
     N8N_COMMUNITY_PACKAGES_ALLOW_TOOL_USAGE: true
     DEBUG: tdl,tdl:client,telepilot-cred,telepilot-node,telepilot-trigger,telepilot-cm
     N8N_DIAGNOSTICS_ENABLED: false

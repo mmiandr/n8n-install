@@ -16,9 +16,10 @@ COPY --from=ffmpeg /ffprobe /usr/local/bin/ffprobe
 COPY --from=alpine-musl /lib/ld-musl-x86_64.so.1 /lib/ld-musl-x86_64.so.1
 
 # Install TelePilot community node with TDLib dependencies
-RUN mkdir -p /home/node/.n8n/nodes \
-    && cd /home/node/.n8n/nodes \
+# Installed to /opt/custom-nodes (not ~/.n8n/nodes) because n8n_storage volume overwrites ~/.n8n
+RUN mkdir -p /opt/custom-nodes \
+    && cd /opt/custom-nodes \
     && npm install @telepilotco/n8n-nodes-telepilot \
-    && chown -R node:node /home/node/.n8n/nodes
+    && chown -R node:node /opt/custom-nodes
 
 USER node
