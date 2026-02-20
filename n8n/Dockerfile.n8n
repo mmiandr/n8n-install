@@ -1,13 +1,19 @@
 # Stage 1: Get static ffmpeg binaries (statically linked, works on Alpine/musl)
 FROM mwader/static-ffmpeg:latest AS ffmpeg
 
-# Stage 2: Build final n8n image with ffmpeg
+# Stage 2: Get standard musl libc (hardened image has stripped musl that crashes TDLib)
+FROM node:22-alpine AS alpine-musl
+
+# Stage 3: Build final n8n image with ffmpeg and TelePilot
 FROM n8nio/n8n:stable
 
 USER root
 # Copy static ffmpeg binaries from the ffmpeg stage
 COPY --from=ffmpeg /ffmpeg /usr/local/bin/ffmpeg
 COPY --from=ffmpeg /ffprobe /usr/local/bin/ffprobe
+
+# Replace hardened musl with standard Alpine musl (fixes TDLib SIGSEGV crash)
+COPY --from=alpine-musl /lib/ld-musl-x86_64.so.1 /lib/ld-musl-x86_64.so.1
 
 # Install TelePilot community node with TDLib dependencies
 RUN mkdir -p /home/node/.n8n/nodes \
