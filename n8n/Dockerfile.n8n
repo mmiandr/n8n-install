@@ -8,4 +8,12 @@ USER root
 # Copy static ffmpeg binaries from the ffmpeg stage
 COPY --from=ffmpeg /ffmpeg /usr/local/bin/ffmpeg
 COPY --from=ffmpeg /ffprobe /usr/local/bin/ffprobe
+
+# Install TelePilot community node with TDLib dependencies for Alpine
+RUN apk add --no-cache libstdc++ libgcc \
+    && mkdir -p /home/node/.n8n/nodes \
+    && cd /home/node/.n8n/nodes \
+    && npm install @telepilotco/n8n-nodes-telepilot \
+    && chown -R node:node /home/node/.n8n/nodes
+
 USER node
