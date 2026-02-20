@@ -8,9 +8,4 @@ USER root
 # Copy static ffmpeg binaries from the ffmpeg stage
 COPY --from=ffmpeg /ffmpeg /usr/local/bin/ffmpeg
 COPY --from=ffmpeg /ffprobe /usr/local/bin/ffprobe
-
-# Install Telepilot custom node
-RUN cd /home/node && mkdir -p .n8n/nodes && cd .n8n/nodes && \
-    npm install @telepilotco/n8n-nodes-telepilot --save
-
 USER node
