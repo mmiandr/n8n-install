@@ -58,6 +58,8 @@ x-n8n: &service-n8n
     context: ./n8n
     dockerfile: Dockerfile.n8n
     pull: true
+  security_opt:
+    - seccomp:unconfined
   environment: &service-n8n-env
     <<: *proxy-env
     DB_POSTGRESDB_DATABASE: postgres
