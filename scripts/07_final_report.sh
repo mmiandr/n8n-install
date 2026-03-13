@@ -103,6 +103,9 @@ fi
 if is_profile_active "postiz"; then
     echo -e "     ${GREEN}*${NC} ${WHITE}Postiz${NC}: Create your account on first login"
 fi
+if is_profile_active "uptime_kuma"; then
+    echo -e "     ${GREEN}*${NC} ${WHITE}Uptime Kuma${NC}: Register your account on first login"
+fi
 if is_profile_active "gost"; then
     echo -e "     ${GREEN}*${NC} ${WHITE}Gost Proxy${NC}: Routing AI traffic through external proxy"
 fi

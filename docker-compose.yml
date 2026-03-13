@@ -1276,3 +1276,18 @@ services:
       timeout: 10s
       retries: 5
       start_period: 30s
+
+  uptime-kuma:
+    image: louislam/uptime-kuma:2
+    container_name: uptime-kuma
+    profiles: ["uptime-kuma"]
+    restart: unless-stopped
+    environment:
+      UPTIME_KUMA_WS_ORIGIN_CHECK: bypass
+    volumes:
+      - uptime_kuma_data:/app/database
+    healthcheck:
+      test: ["CMD-SHELL", "wget -qO- http://localhost:3000/ || exit 1"]
+      interval: 30s
+      timeout: 10s
+      retries: 5
